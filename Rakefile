@@ -1,10 +1,11 @@
 require 'rake/clean'
 CLEAN.include "**/*.hi"
 CLEAN.include "**/*.o"
-CLEAN.include Dir["**/p*.hs"].map{|f| File.basename f }
 
 Dir["*.hs"].each do |filename|
   name = File.basename(filename, ".hs")
+  CLEAN.include name
+
   desc "run #{name}"
   file name => [filename] do
     sh "ghc #{filename}"
