@@ -1,3 +1,5 @@
+import Data.List
+
 type Row  = [Integer]
 type Grid = [Row]
 
@@ -49,6 +51,12 @@ diagonals' n diags grid = let
   in
     diagonals' (n+1) newDiags newGrid
 
+
+e_w   grid = grid
+n_s   grid = transpose grid
+nw_se grid = diagonals grid
+ne_sw grid = diagonals $ map reverse grid
+
 main = do
   putStrLn $ show $ littleGrid
-  putStrLn $ show $ diagonals littleGrid
+  putStrLn $ show $ ne_sw littleGrid
