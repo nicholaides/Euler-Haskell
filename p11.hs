@@ -33,6 +33,10 @@ littleGrid =
     [52, 70, 95, 36, 91],
     [22, 31, 16, 13, 80]]
 
+tinyGrid =
+  [ [08, 02],
+    [22, 31]]
+
 diagonal :: Int -> Grid -> Row
 diagonal n grid = map head $ filter (/=[]) $ take n grid
 
@@ -57,6 +61,14 @@ n_s   grid = transpose grid
 nw_se grid = diagonals grid
 ne_sw grid = diagonals $ map reverse grid
 
+all_rows grid = foldl1 (++) $ map (\f -> f grid) [e_w, n_s, nw_se, ne_sw]
+
+all_seqs n grid = foldl1 (++) $ map (\xs -> seqs xs n) $ all_rows grid
+
+seqs :: [a] -> Int -> [[a]]
+seqs xs n =
+ filter (\x-> n == (length x)) $ map (take n) $ tails xs
+
 main = do
   putStrLn $ show $ littleGrid
-  putStrLn $ show $ ne_sw littleGrid
+  putStrLn $ show $ maximum $ map product $ all_seqs 4 theGrid
